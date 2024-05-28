@@ -190,14 +190,14 @@ namespace Triton
 		struct dam_arg
 		{
 			static constexpr T gamma=1000.0;//水体重度 
-			static const T gravity=9.8;//重力加速度 
-			static const T gamma_s=2650.0;//土体重度//attri2671.8
-			static const T D=0.0004;//粒径//attri0.00005
-			static const T n2=0.0009;//糙率系数 
-			static const T e=0.25;//坝体材料孔隙率 
-			static const T K0=1.0;//最终溃口宽度修正系数 
-			static const T Vr=5000000.0;//有效下泄库容//m3
-			static const T phi=0.6283;//坝体材料内摩擦角//36 
+			static constexpr T gravity=9.8;//重力加速度 
+			static constexpr T gamma_s=2650.0;//土体重度//attri2671.8
+			static constexpr T D=0.0004;//粒径//attri0.00005
+			static constexpr T n2=0.0009;//糙率系数 
+			static constexpr T e=0.25;//坝体材料孔隙率 
+			static constexpr T K0=1.0;//最终溃口宽度修正系数 
+			static constexpr T Vr=5000000.0;//有效下泄库容//m3
+			static constexpr T phi=0.6283;//坝体材料内摩擦角//36 
 			T cx;
 			T cy;
 			T cz;//溃口底高程 
