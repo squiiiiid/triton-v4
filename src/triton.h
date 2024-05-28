@@ -1947,14 +1947,14 @@ namespace Triton
 			Hb=host_vec[H][idx+idy*cols]-host_vec[DEM][idx+idy*cols];
 			
 			dam0.Bm=0.1803*dam0.K0*pow(dam0.Vr,0.32)*pow(Hb,0.19);
-			printf("最终宽度：%.4lf\n",dam0.Bm);
+			printf("Bm: %.4lf\n",dam0.Bm);
 			dam0.Bm_B0=dam0.Bm-dam0.B;
 			dam0.K1=((Hb+15.3)/Hb+1)*0.5;
 			dam0.Tf=0.00254*dam0.K1*pow(dam0.Vr,0.52)*pow(Hb,-0.9)*3600.0;
-			printf("溃口发展时间：%.4lf\n",dam0.Tf); 
+			printf("Tf: %.4lf\n",dam0.Tf); 
 			
 			dam0.Hck=4*cos(dam0.phi)*sin(dam0.theta)/dam0.gamma_s/(1-cos(dam0.theta-dam0.phi));
-			printf("下阶段临界展深：%.4lf\n",dam0.Hck);
+			printf("Hck: %.4lf\n",dam0.Hck);
 			
 			dam0.flag0=1;
 		}
@@ -1966,8 +1966,8 @@ namespace Triton
 		h=compute_dam_H(&dam0);
 		Uc=compute_dam_Uc(&dam0,h);
 		V=compute_dam_V(&dam0);
-		printf("临界流速：%.4lf\n",Uc); 
-		printf("溃口流速：%.4lf\n",V); 
+		printf("Uc: %.4lf\n",Uc); 
+		printf("V: %.4lf\n",V); 
 		if(V<Uc+0.001)	goto exitdam;//初始h极小，Uc->0 
 		
 		//展深 
@@ -1977,8 +1977,8 @@ namespace Triton
 		dHc=compute_dam_dHc(&dam0,tau,local_dt);// 
 		dam0.Hc+=dHc;
 		dam0.cz-=dHc;
-		printf("溃口展深：%.4lf\n",dam0.Hc);
-		printf("溃口展深变化量：%.4lf\n",dHc); 
+		printf("Hc: %.4lf\n",dam0.Hc);
+		printf("dHc: %.4lf\n",dHc); 
 		if(dam0.cz>dam0.czm)
 		{
 			dam0.Hc+=dHc;
@@ -1995,15 +1995,15 @@ namespace Triton
 		dam0.B+=local_dt*dam0.Bm_B0/dam0.Tf; 
 		if(dam0.B>dam0.Bm)
 			dam0.B=dam0.Bm;
-		printf("溃口展宽：%.4lf\n",dam0.B);
+		printf("B: %.4lf\n",dam0.B);
 			
 		//边坡稳定 theta
 		while(dam0.Hc>dam0.Hck)
 		{
 			dam0.theta=0.5*(dam0.theta+dam0.phi);
-			printf("下阶段边坡角度：%.4lf\n",dam0.theta);
+			printf("k+1 theta: %.4lf\n",dam0.theta);
 			dam0.Hck=4*cos(dam0.phi)*sin(dam0.theta)/dam0.gamma_s/(1-cos(dam0.theta-dam0.phi));
-			printf("下阶段临界展深：%.4lf\n",dam0.Hck);
+			printf("k+1 Hck: %.4lf\n",dam0.Hck);
 		}
 		
 exitdam:		
