@@ -1944,7 +1944,7 @@ namespace Triton
 			dy=L*sin(dam0.theta);
 			idx=(int)((dam0.cx+dx)/cell_size);
 			idy=(int)((dam0.cy+dy)/cell_size);
-			Hb=host_vec[H][idx+idy*cols];//-host_vec[DEM][idx+idy*cols];
+			Hb = 10.0;//host_vec[H][idx+idy*cols]-host_vec[DEM][idx+idy*cols];溃决时刻水位-坝址断面底高程
 			
 			dam0.Bm=0.1803*dam0.K0*pow(dam0.Vr,0.32)*pow(Hb,0.19);
 			printf("Bm: %.4lf\n",dam0.Bm);
