@@ -2091,7 +2091,7 @@ exitdam:
 	template<typename T>
 	T triton<T>::compute_dam_V(struct dam_arg* dam)//溃口出流速度，沿溃口方向，完成 
 	{
-		return host_vec[QX][dam->idx+dam->idy*cols]*cos(dam.rot)+host_vec[QY][dam->idx+dam->idy*cols]*sin(dam.rot);
+		return host_vec[QX][dam->idx+dam->idy*cols]*cos(dam->rot)+host_vec[QY][dam->idx+dam->idy*cols]*sin(dam->rot);
 	}
 	
 	template<typename T>
