@@ -1944,7 +1944,7 @@ namespace Triton
 			dy=L*sin(dam0.theta);
 			idx=(int)((dam0.cx+dx)/cell_size);
 			idy=(int)((dam0.cy+dy)/cell_size);
-			Hb=host_vec[H][idx+idy*cols]-host_vec[DEM][idx+idy*cols];
+			Hb=host_vec[H][idx+idy*cols];//-host_vec[DEM][idx+idy*cols];
 			
 			dam0.Bm=0.1803*dam0.K0*pow(dam0.Vr,0.32)*pow(Hb,0.19);
 			printf("Bm: %.4lf\n",dam0.Bm);
@@ -2079,7 +2079,7 @@ exitdam:
 	template<typename T>
 	T triton<T>::compute_dam_H(struct dam_arg* dam)//溃口水深，平均/点，完成 
 	{
-		return host_vec[H][dam->idx+dam->idy*cols]-host_vec[DEM][dam->idx+dam->idy*cols];//点深度 
+		return host_vec[H][dam->idx+dam->idy*cols];//-host_vec[DEM][dam->idx+dam->idy*cols];//点深度 
 	}
 	
 	template<typename T>
