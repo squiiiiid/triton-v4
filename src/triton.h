@@ -204,7 +204,7 @@ namespace Triton
 			T czm;//最低底高程 
 			int idx;
 			int idy;
-			T H;//当前展深 
+			T Hc;//当前展深 
 			T L;//当前溃口长度 
 			T B;//当前平均溃口宽度 
 			T rot;//溃口朝向水平角 左手系 
@@ -1931,26 +1931,26 @@ namespace Triton
 			dam0.cz=8.0;//m
 			dam0.idx=(int)(dam0.cx/cell_size);
 			dam0.idy=(int)(dam0.cy/cell_size);
-			dam0.H=2.0;
+			dam0.Hc=2.0;
 			dam0.L=6.0;//m
 			dam0.B=2.0;
 			dam0.rot=0.0;
 			dam0.theta=1.570;
 			
-			T dx,dy,L,H;
+			T dx,dy,L,Hb;
 			int idx,idy;
 			L=dam0.L*1.5;
 			dx=L*cos(dam0.theta);
 			dy=L*sin(dam0.theta);
 			idx=(int)((dam0.cx+dx)/cell_size);
 			idy=(int)((dam0.cy+dy)/cell_size);
-			H=host_vec[H][idx+idy*cols]-host_vec[DEM][idx+idy*cols];
+			Hb=host_vec[H][idx+idy*cols]-host_vec[DEM][idx+idy*cols];
 			
-			dam0.Bm=0.1803*dam0.K0*pow(dam0.Vr,0.32)*pow(H,0.19);
+			dam0.Bm=0.1803*dam0.K0*pow(dam0.Vr,0.32)*pow(Hb,0.19);
 			printf("最终宽度：%.4lf\n",dam0.Bm);
 			dam0.Bm_B0=dam0.Bm-dam0.B;
-			dam0.K1=((H+15.3)/H+1)*0.5;
-			dam0.Tf=0.00254*dam0.K1*pow(dam0.Vr,0.52)*pow(H,-0.9)*3600.0;
+			dam0.K1=((Hb+15.3)/Hb+1)*0.5;
+			dam0.Tf=0.00254*dam0.K1*pow(dam0.Vr,0.52)*pow(Hb,-0.9)*3600.0;
 			printf("溃口发展时间：%.4lf\n",dam0.Tf); 
 			
 			dam0.Hck=4*cos(dam0.phi)*sin(dam0.theta)/dam0.gamma_s/(1-cos(dam0.theta-dam0.phi));
@@ -1975,19 +1975,19 @@ namespace Triton
 		T dHc;
 		tau=compute_dam_tau(&dam0,h);
 		dHc=compute_dam_dHc(&dam0,tau,local_dt);// 
-		dam0.H+=dHc;
+		dam0.Hc+=dHc;
 		dam0.cz-=dHc;
-		printf("溃口展深：%.4lf\n",dam0.H);
+		printf("溃口展深：%.4lf\n",dam0.Hc);
 		printf("溃口展深变化量：%.4lf\n",dHc); 
 		if(dam0.cz>dam0.czm)
 		{
-			dam0.H+=dHc;
+			dam0.Hc+=dHc;
 			dam0.cz-=dHc;
 		}
 		//最低高程判断
 		else if(dam0.cz<dam0.czm)
 		{
-			dam0.H-=dam0.czm-dam0.cz;
+			dam0.Hc-=dam0.czm-dam0.cz;
 			dam0.cz=dam0.czm;
 		}
 		
@@ -1998,7 +1998,7 @@ namespace Triton
 		printf("溃口展宽：%.4lf\n",dam0.B);
 			
 		//边坡稳定 theta
-		while(dam0.H>dam0.Hck)
+		while(dam0.Hc>dam0.Hck)
 		{
 			dam0.theta=0.5*(dam0.theta+dam0.phi);
 			printf("下阶段边坡角度：%.4lf\n",dam0.theta);
@@ -2009,7 +2009,7 @@ namespace Triton
 exitdam:		
 		//削减地形 
 		int idx1=cols,idy1=rows,idx2=-1,idy2=-1;
-		T dd=dam0.H*tan(1.5708-dam0.theta);
+		T dd=dam0.Hc*tan(1.5708-dam0.theta);
 		T Bu=dam0.B+dd;
 		dd=(dam0.B-dd)/Bu;
 		T ax,ay,bx,by,tx,ty,crot;
@@ -2064,10 +2064,10 @@ exitdam:
 				if(db<0.0)	db=-db;
 				db*=2.0;
 				
-				//dh=(da,db,H,B,theta)
+				//dh=(da,db,Hc,B,theta)
 				dh=dam0.cz;
 				if(db>dd)
-					dh+=dam0.H*(db-dd)/(1-dd);
+					dh+=dam0.Hc*(db-dd)/(1-dd);
 				
 				if(host_vec[DEM][j+i*cols]>dh)	host_vec[DEM][j+i*cols]=dh;
 			}
