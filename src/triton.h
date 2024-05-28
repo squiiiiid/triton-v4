@@ -189,7 +189,7 @@ namespace Triton
 */
 		struct dam_arg
 		{
-			static const T gamma=1000.0;//水体重度 
+			static constexpr T gamma=1000.0;//水体重度 
 			static const T gravity=9.8;//重力加速度 
 			static const T gamma_s=2650.0;//土体重度//attri2671.8
 			static const T D=0.0004;//粒径//attri0.00005
